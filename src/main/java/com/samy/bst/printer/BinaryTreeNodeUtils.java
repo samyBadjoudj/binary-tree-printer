@@ -1,0 +1,184 @@
+package com.samy.bst.printer;
+
+import com.samy.bst.printer.model.Position;
+import com.samy.bst.printer.model.printable.BinaryTreeNode;
+import com.samy.bst.printer.model.printable.html.LefVertexHtml;
+import com.samy.bst.printer.model.printable.Printable;
+import com.samy.bst.printer.model.printable.html.RightVertexHtml;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+public class BinaryTreeNodeUtils {
+
+
+
+    public static BinaryTreeNode buildTreeFromSortedArray(List<Integer> integers, Integer left, Integer right, BinaryTreeNode root){
+        final int middle = (right + left) / 2;
+        if(left > right){
+            return null;
+        }
+        if(root == null){
+            root = new BinaryTreeNode(null, null, integers.get(middle) + "");
+        }
+        root.setLeft(buildTreeFromSortedArray(integers, left, middle-1, root.getLeft()));
+        root.setRight(buildTreeFromSortedArray(integers, middle+1, right, root.getRight()));
+        return root;
+    }
+
+    public static BinaryTreeNode buildTreeFromArray(List<Integer> integers, Integer current){
+        int left = (2 * current)+1;
+        int right = (2 * current) + 2;
+        if(current >= integers.size()){
+            return null;
+        }
+        BinaryTreeNode root = new BinaryTreeNode(null, null, integers.get(current) + "");
+        root.setLeft(buildTreeFromArray(integers, left));
+        root.setRight(buildTreeFromArray(integers, right));
+        return root;
+    }
+
+    public static Integer getHeight(BinaryTreeNode node){
+        if(Objects.isNull(node)){
+            return 0;
+        }
+        return Math.max(getHeight(node.getLeft()), getHeight(node.getRight())) + 1;
+    }
+
+
+
+    public static Integer getLevel(BinaryTreeNode currentNode, BinaryTreeNode toFind, Integer currentLevel){
+        if(Objects.isNull(currentNode)){
+            return 0;
+        }
+        if(currentNode.equals(toFind)){
+            return currentLevel;
+        }
+        Integer leftLevel = getLevel(currentNode.getLeft(), toFind, currentLevel + 1);
+        if(leftLevel != 0){
+            return leftLevel;
+        }
+        Integer rightLevel = getLevel(currentNode.getRight(), toFind, currentLevel + 1);
+        if(rightLevel!= 0){
+            return rightLevel;
+        }
+        return 0;
+    }
+    public static Map<Integer, List<BinaryTreeNode>> getBinaryNodesByLevel(BinaryTreeNode root){
+        Queue<BinaryTreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
+        Map<Integer, List<BinaryTreeNode>> binaryNodeByLevel = new HashMap<>();
+        while (!queue.isEmpty()){
+            final BinaryTreeNode currentNode = queue.poll();
+            final Integer level = getLevel(root, currentNode, 0);
+            final List<BinaryTreeNode> nodeAtLevel = binaryNodeByLevel.getOrDefault(level, new ArrayList<>());
+            nodeAtLevel.add(currentNode);
+            binaryNodeByLevel.put(level, nodeAtLevel);
+            if(Objects.nonNull(currentNode.getLeft())){
+                queue.add(currentNode.getLeft());
+            }
+            if(Objects.nonNull(currentNode.getRight())){
+                queue.add(currentNode.getRight());
+            }
+        }
+        return binaryNodeByLevel;
+    }
+
+    public static Integer getMaxWidth(BinaryTreeNode node){
+        return getBinaryNodesByLevel(node).values().stream().map(List::size).max(Integer::compareTo).orElse(0);
+    }
+
+
+    public static String getStringPrintableFromPrintableByPosition(final Map<Position, Printable<String>> positionPrintableMap, String returnCarriage, String space){
+        final Map<Integer, List<Position>> positionsByLine = positionPrintableMap.keySet().stream().collect(Collectors.groupingBy(Position::getRow));
+        final List<Integer> lines = positionsByLine.keySet().stream().sorted().collect(Collectors.toList());
+        StringBuilder toDisplay = new StringBuilder();
+        lines.forEach(k->{
+            final List<Position> positionAtGivenRow =
+                    positionsByLine.get(k).stream().sorted(Comparator.comparing(Position::getColumn)).collect(Collectors.toList());
+            toDisplay.append(buildStringWithPositionValue(positionAtGivenRow, positionPrintableMap, space)).append(returnCarriage);
+
+        });
+
+        return toDisplay.toString();
+
+    }
+    public static Map<Position,Printable<String>> getStringByPosition(BinaryTreeNode root, Printable<String> leftVertex, Printable<String> rightVertex){
+        Queue<BinaryTreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
+        Integer height = getHeight(root);
+        int numberChar = 3;
+        int maxLengthBottomTree = (int) Math.pow(2,height-1)* numberChar;
+        Map<Printable<String>, Position> printingPosition = new HashMap<>();
+        Map<Position, Printable<String>> vertices = new HashMap<>();
+        printingPosition.put(root, new Position(0, maxLengthBottomTree));
+        while (!queue.isEmpty()){
+            final BinaryTreeNode currentNode = queue.poll();
+            Position    parentColumnPosition = printingPosition.get(currentNode);
+            if(Objects.nonNull(currentNode.getLeft())){
+                final Integer currentLeftChild = getLevel(root, currentNode.getLeft(), 0);
+                queue.add(currentNode.getLeft());
+                Integer numberLineBetweenLevels = height-currentLeftChild+1 ;
+                final int line = parentColumnPosition.getRow() + numberLineBetweenLevels;
+                int offset = getOffset(maxLengthBottomTree, currentLeftChild);
+                Position leftChildPosition = new Position(line, (parentColumnPosition.getColumn() - (offset)));
+                vertices.putAll(getVercticesWithPosition(parentColumnPosition.getRow(),line,parentColumnPosition.getColumn(),leftChildPosition.getColumn(),leftVertex));
+                printingPosition.put(currentNode.getLeft(), leftChildPosition);
+            }
+            if(Objects.nonNull(currentNode.getRight())){
+                queue.add(currentNode.getRight());
+                final Integer currentRightChildLevel = getLevel(root, currentNode.getRight(), 0);
+                int offset = getOffset(maxLengthBottomTree, currentRightChildLevel);
+                Integer numberLineBetweenLevels = height-currentRightChildLevel+1 ;
+                final int line = parentColumnPosition.getRow() + numberLineBetweenLevels;
+                Position rightChildPosition = new Position(line, (parentColumnPosition.getColumn() + (offset)));
+                vertices.putAll(getVercticesWithPosition(parentColumnPosition.getRow(),line,parentColumnPosition.getColumn(),rightChildPosition.getColumn(), rightVertex));
+                printingPosition.put(currentNode.getRight(), rightChildPosition);
+            }
+
+        }
+        Map<Position, Printable<String>> reversed = printingPosition.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+        reversed.putAll(vertices);
+        return reversed;
+
+    }
+
+    private static int getOffset(int starting, Integer level) {
+        return (int) (starting/ (Math.pow(2, level)));
+    }
+
+    private static Map<? extends Position, ? extends Printable<String>> getVercticesWithPosition(Integer fromLine, int toLine, Integer fromColumn, Integer toColumn, Printable<String> vertex) {
+        Map<Position, Printable<String>> edges = new HashMap<>();
+        int j = 1;
+        int step;
+        if (fromColumn < toColumn) {
+            step = (toColumn - fromColumn) / (toLine - fromLine);
+        } else {
+            step = -(fromColumn - toColumn) / (toLine - fromLine);
+        }
+        for (int i = fromLine + 1; i < toLine; i++) {
+            edges.put(new Position(i, fromColumn + (step * j++)), vertex);
+        }
+        return edges;
+    }
+
+    public static String buildStringWithPositionValue(List<Position> positions, Map<Position,Printable<String>> mapOfNodes, String space){
+        StringBuilder line = new StringBuilder();
+        Position previous = null;
+        int previousOffset = 0;
+        for(Position pos:positions){
+            final int offset = Objects.isNull(previous) ? pos.getColumn() : pos.getColumn() - previous.getColumn();
+            addSpace(line, offset- (previousOffset + mapOfNodes.get(pos).getPrintableOffset()),space);
+            line.append(Objects.isNull(mapOfNodes.get(pos).getPrintableValue()) ? "null" : mapOfNodes.get(pos).getPrintableValue());
+            previous = pos;
+            previousOffset = mapOfNodes.get(pos).getPrintableOffset();
+        }
+        return line.toString();
+    }
+    private static void addSpace(StringBuilder line, Integer column, String space) {
+        for (int i = 0; i < column; i++) {
+            line.append(space);
+        }
+    }
+}
