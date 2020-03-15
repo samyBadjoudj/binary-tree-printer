@@ -1,10 +1,10 @@
-package com.samy.bst.printer;
+package com.samy.bt.printer;
 
-import com.samy.bst.printer.model.Position;
-import com.samy.bst.printer.model.printable.BinaryTreeNode;
-import com.samy.bst.printer.model.printable.Printable;
-import com.samy.bst.printer.model.printable.console.LefVertexConsole;
-import com.samy.bst.printer.model.printable.console.RightVertexConsole;
+import com.samy.bt.printer.model.Position;
+import com.samy.bt.printer.model.printable.BinaryTreeNode;
+import com.samy.bt.printer.model.printable.Printable;
+import com.samy.bt.printer.model.printable.console.LefVertexConsole;
+import com.samy.bt.printer.model.printable.console.RightVertexConsole;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

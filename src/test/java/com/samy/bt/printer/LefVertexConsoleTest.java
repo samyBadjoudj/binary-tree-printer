@@ -1,6 +1,6 @@
-package com.samy.bst.printer;
+package com.samy.bt.printer;
 
-import com.samy.bst.printer.model.printable.Printable;
+import com.samy.bt.printer.model.printable.Printable;
 
 public class LefVertexConsoleTest implements Printable<String> {
     @Override

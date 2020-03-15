@@ -1,13 +1,13 @@
-package com.samy.bst.printer;
+package com.samy.bt.printer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BstPrinter {
+public class BtPrinter {
 
     public static void main(String[] args) {
-        SpringApplication.run(BstPrinter.class, args);
+        SpringApplication.run(BtPrinter.class, args);
     }
 
 }

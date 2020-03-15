@@ -1,4 +1,4 @@
-package com.samy.bst.printer.model.printable;
+package com.samy.bt.printer.model.printable;
 
 import java.util.Objects;
 

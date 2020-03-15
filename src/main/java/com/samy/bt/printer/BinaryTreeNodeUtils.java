@@ -1,13 +1,10 @@
-package com.samy.bst.printer;
+package com.samy.bt.printer;
 
-import com.samy.bst.printer.model.Position;
-import com.samy.bst.printer.model.printable.BinaryTreeNode;
-import com.samy.bst.printer.model.printable.html.LefVertexHtml;
-import com.samy.bst.printer.model.printable.Printable;
-import com.samy.bst.printer.model.printable.html.RightVertexHtml;
+import com.samy.bt.printer.model.Position;
+import com.samy.bt.printer.model.printable.BinaryTreeNode;
+import com.samy.bt.printer.model.printable.Printable;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class BinaryTreeNodeUtils {

@@ -1,6 +1,6 @@
-package com.samy.bst.printer.model.printable.html;
+package com.samy.bt.printer.model.printable.html;
 
-import com.samy.bst.printer.model.printable.Printable;
+import com.samy.bt.printer.model.printable.Printable;
 
 public class LefVertexHtml implements Printable<String> {
     @Override
