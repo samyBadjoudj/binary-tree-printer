@@ -16,7 +16,7 @@ It is composed with endpoints.
 
 
 ### Feature
-- Build binary tree form this syntax ex:4(2(3)(1))(6(5)(9))
+- Build binary tree form this syntax 4(2(3)(1))(6(5)(7(9)))
 - Build binary search tree from array
 - Pretty display on terminal
 - Pretty display html
