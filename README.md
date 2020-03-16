@@ -26,9 +26,9 @@ It is composed with endpoints.
 - Spring Boot embedded tomcat
 
 ### Screenshot
-![html print binary tree](https://raw.githubusercontent.com/samyBadjoudj/binary-tree-printer/blob/master/html_print_bt.png)
+![html print binary tree](https://raw.githubusercontent.com/samyBadjoudj/binary-tree-printer/master/html_print_bt.png)
 
-![console print binary tree](https://raw.githubusercontent.com/samyBadjoudj/binary-tree-printer/blob/master/html_print_bt_console.png)
+![console print binary tree](https://raw.githubusercontent.com/samyBadjoudj/binary-tree-printer/master/html_print_bt_console.png)
 
 
 
