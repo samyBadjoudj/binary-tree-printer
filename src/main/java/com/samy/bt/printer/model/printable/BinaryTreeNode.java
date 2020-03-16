@@ -68,4 +68,8 @@ public class BinaryTreeNode implements Printable<String> {
     public int getPrintableOffset() {
         return value.length();
     }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

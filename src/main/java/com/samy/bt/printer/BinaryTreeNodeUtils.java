@@ -1,5 +1,6 @@
 package com.samy.bt.printer;
 
+import com.samy.bt.printer.model.ParsableTree;
 import com.samy.bt.printer.model.Position;
 import com.samy.bt.printer.model.printable.BinaryTreeNode;
 import com.samy.bt.printer.model.printable.Printable;
@@ -11,7 +12,7 @@ public class BinaryTreeNodeUtils {
 
 
 
-    public static BinaryTreeNode buildTreeFromSortedArray(List<Integer> integers, Integer left, Integer right, BinaryTreeNode root){
+    public static BinaryTreeNode buildTreeFromSortedArray(List<?> integers, Integer left, Integer right, BinaryTreeNode root){
         final int middle = (right + left) / 2;
         if(left > right){
             return null;
@@ -177,5 +178,39 @@ public class BinaryTreeNodeUtils {
         for (int i = 0; i < column; i++) {
             line.append(space);
         }
+    }
+
+
+    public static BinaryTreeNode getBinaryTreeFromString(ParsableTree pt){
+        BinaryTreeNode root = new BinaryTreeNode(null,null,null);
+        if (pt.getCurrentChar()!= '(') {
+            String intVal = parseValue(pt);
+            root.setValue(intVal);
+        }
+
+        BinaryTreeNode leftNode = null, rightNode = null;
+        if (pt.parsingNotFinished() && pt.getCurrentChar() == '(') { // for the possible leftNode, if '(' met.
+            pt.shiftRight();
+            leftNode = getBinaryTreeFromString(pt);
+        }
+        if (pt.parsingNotFinished() && pt.getCurrentChar() == '(') { // for the possible rightNode, if '(' met.
+            pt.shiftRight();
+            rightNode = getBinaryTreeFromString(pt);
+        }
+        root.setLeft(leftNode);
+        root.setRight(rightNode);
+        pt.shiftRight();
+        return root;
+    }
+
+    private static String parseValue(ParsableTree pt) {
+        StringBuilder sb = new StringBuilder();
+        while (pt.parsingNotFinished()) {
+            if (pt.getCurrentChar() == '(' || pt.getCurrentChar() == ')')
+                break;
+            sb.append(pt.getCurrentChar());
+            pt.shiftRight();
+        }
+        return sb.toString();
     }
 }

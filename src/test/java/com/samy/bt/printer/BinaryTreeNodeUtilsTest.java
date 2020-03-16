@@ -1,5 +1,6 @@
 package com.samy.bt.printer;
 
+import com.samy.bt.printer.model.ParsableTree;
 import com.samy.bt.printer.model.Position;
 import com.samy.bt.printer.model.printable.BinaryTreeNode;
 import com.samy.bt.printer.model.printable.Printable;
@@ -99,5 +100,13 @@ public class BinaryTreeNodeUtilsTest {
         Assert.assertEquals("     1\n" +
                 "    /\\\n" +
                 "  2    3\n", BinaryTreeNodeUtils.getStringPrintableFromPrintableByPosition(stringByPosition, System.lineSeparator(), " "));
+    }
+
+    @Test
+    public void testParseTree(){
+        BinaryTreeNode root = BinaryTreeNodeUtils.getBinaryTreeFromString(new ParsableTree("4(2(3)(1))(6(5))"));
+        final Map<Position, Printable<String>> positionBinaryTreeNodeMap2= BinaryTreeNodeUtils.getStringByPosition(root,new LefVertexConsole(),new RightVertexConsole());
+        String console = BinaryTreeNodeUtils.getStringPrintableFromPrintableByPosition(positionBinaryTreeNodeMap2, System.lineSeparator()," ");
+        LOGGER.info(System.lineSeparator()+"{}", console);
     }
 }

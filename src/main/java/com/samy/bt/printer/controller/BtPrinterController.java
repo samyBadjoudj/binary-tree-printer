@@ -1,39 +1,55 @@
 package com.samy.bt.printer.controller;
 
-import com.samy.bt.printer.BinaryTreeNodeUtils;
-import com.samy.bt.printer.model.Position;
-import com.samy.bt.printer.model.printable.BinaryTreeNode;
-import com.samy.bt.printer.model.printable.Printable;
-import com.samy.bt.printer.model.printable.console.LefVertexConsole;
-import com.samy.bt.printer.model.printable.console.RightVertexConsole;
-import com.samy.bt.printer.model.printable.html.LefVertexHtml;
-import com.samy.bt.printer.model.printable.html.RightVertexHtml;
+import com.samy.bt.printer.BinaryTreeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RestController
 public class BtPrinterController {
 
-   private static final Logger LOGGER = LoggerFactory.getLogger(BtPrinterController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BtPrinterController.class);
 
-    public String printBstTest() {
-        List<Integer> treeValue = IntStream.rangeClosed(1, 10).boxed().collect(Collectors.toList());
-        BinaryTreeNode root = BinaryTreeNodeUtils.buildTreeFromArray(treeValue, 0);
-        BinaryTreeNode root2 = BinaryTreeNodeUtils.buildTreeFromSortedArray(treeValue, 0, treeValue.size()-1, null);
-        final Map<Position, Printable<String>> positionBinaryTreeNodeMap = BinaryTreeNodeUtils.getStringByPosition(root2,new LefVertexHtml(),new RightVertexHtml());
-        final Map<Position, Printable<String>> positionBinaryTreeNodeMap2= BinaryTreeNodeUtils.getStringByPosition(root2,new LefVertexConsole(),new RightVertexConsole());
-        String html = BinaryTreeNodeUtils.getStringPrintableFromPrintableByPosition(positionBinaryTreeNodeMap, "<br />","&nbsp;");
-        String console = BinaryTreeNodeUtils.getStringPrintableFromPrintableByPosition(positionBinaryTreeNodeMap2, System.lineSeparator()," ");
-        LOGGER.info("Display tree generated");
-        LOGGER.info(System.lineSeparator() + console);
-        return html;
+    private BinaryTreeService binaryTreeService;
+
+    public BtPrinterController(@Autowired BinaryTreeService binaryTreeService) {
+        this.binaryTreeService = binaryTreeService;
     }
 
+    @GetMapping("printBt")
+    @CrossOrigin(origins = "*")
+    public String printBtTest() {
+        List<String> strings = Arrays.asList("allo", "huile", "cheval", "marabou");
+        LOGGER.info("Display tree generated");
+        LOGGER.info(System.lineSeparator() + binaryTreeService.getStringBinaryTreeRepresentationFromIntegerList(strings));
+        return binaryTreeService.getHtmlStringBinaryTreeRepresentationFromIntegerList(strings);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("printBtFromString")
+    public String printBtFromParsable(@RequestParam("content") String content) {
+        LOGGER.info("Generate tree from pattern {}",content);
+        LOGGER.info(System.lineSeparator() + binaryTreeService.getStringBinaryRepresentationFromParsableContent(content));
+        return binaryTreeService.getHtmlStringBinaryRepresentationFromParsableContent(content);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("printBstFromArrayString")
+    public String printBstFromArrayString(@RequestParam("content") String content) {
+        LOGGER.info("Generate tree from array unsorted {}",content);
+        List<String> values = Arrays.stream(content.split(",")).sorted().collect(Collectors.toList());
+        LOGGER.info(System.lineSeparator() + binaryTreeService.getStringBinaryTreeRepresentationFromIntegerList(values));
+        return binaryTreeService.getHtmlStringBinaryTreeRepresentationFromIntegerList(values);
+
+    }
 
 }
