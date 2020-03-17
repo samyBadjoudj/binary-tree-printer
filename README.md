@@ -28,7 +28,7 @@ It is composed with these endpoints.
 
 ![console print binary tree](https://raw.githubusercontent.com/samyBadjoudj/binary-tree-printer/master/html_print_bt_console_2.png)
 
-### Client with React,Redux and sagas 
+### Client with React,Redux and Sagas 
 
 https://github.com/samyBadjoudj/binary-tree-printer-react-client
 
