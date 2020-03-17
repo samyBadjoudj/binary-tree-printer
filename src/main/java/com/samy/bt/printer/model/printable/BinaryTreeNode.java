@@ -35,6 +35,7 @@ public class BinaryTreeNode implements Printable<String> {
     }
 
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,9 +67,12 @@ public class BinaryTreeNode implements Printable<String> {
 
     @Override
     public int getPrintableOffset() {
+        return (int) Math.ceil(value.length()/2.0);
+    }
+    @Override
+    public int getPrintableLengthValue(){
         return value.length();
     }
-
     public void setValue(String value) {
         this.value = value;
     }

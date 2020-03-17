@@ -6,8 +6,8 @@ import com.samy.bt.printer.model.printable.BinaryTreeNode;
 import com.samy.bt.printer.model.printable.Printable;
 import com.samy.bt.printer.model.printable.console.LefVertexConsole;
 import com.samy.bt.printer.model.printable.console.RightVertexConsole;
-import com.samy.bt.printer.model.printable.html.LefVertexHtml;
-import com.samy.bt.printer.model.printable.html.RightVertexHtml;
+import com.samy.bt.printer.model.printable.html.LeftVertexRawString;
+import com.samy.bt.printer.model.printable.html.RightVertexRawString;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +18,16 @@ import java.util.Objects;
 @Service
 public class BinaryTreeService {
 
-    public String getHtmlStringBinaryTreeRepresentationFromIntegerList(List<?> values){
+    public String getRawStringBinaryTreeRepresentationFromIntegerList(List<?> values){
         if(Objects.isNull(values) || values.isEmpty()){
             return Strings.EMPTY;
         }
         BinaryTreeNode binaryTreeNode = BinaryTreeNodeUtils.buildTreeFromSortedArray(values, 0, values.size()-1, null);
-        final Map<Position, Printable<String>> positionBinaryTreeNodeMap = BinaryTreeNodeUtils.getStringByPosition(binaryTreeNode,new LefVertexHtml(),new RightVertexHtml());
-        return BinaryTreeNodeUtils.getStringPrintableFromPrintableByPosition(positionBinaryTreeNodeMap, "<br />","&nbsp;");
+        final Map<Position, Printable<String>> positionBinaryTreeNodeMap = BinaryTreeNodeUtils.getStringByPosition(binaryTreeNode,new LeftVertexRawString(),new RightVertexRawString());
+        return BinaryTreeNodeUtils.getStringPrintableFromPrintableByPosition(positionBinaryTreeNodeMap, System.lineSeparator()," ");
     }
 
-    public String getStringBinaryTreeRepresentationFromIntegerList(List<?> values){
+    public String getConsoleStringBinaryTreeRepresentationFromIntegerList(List<?> values){
         if(Objects.isNull(values) || values.isEmpty()){
             return Strings.EMPTY;
         }
@@ -37,13 +37,13 @@ public class BinaryTreeService {
     }
 
 
-    public String getHtmlStringBinaryRepresentationFromParsableContent(String content){
+    public String getRawStringBinaryRepresentationFromParsableContent(String content){
         if(Objects.isNull(content) || content.isEmpty()){
             return Strings.EMPTY;
         }
         BinaryTreeNode binaryTreeNode = BinaryTreeNodeUtils.getBinaryTreeFromString(new ParsableTree(content));
-        final Map<Position, Printable<String>> positionBinaryTreeNodeMap = BinaryTreeNodeUtils.getStringByPosition(binaryTreeNode,new LefVertexHtml(),new RightVertexHtml());
-        return BinaryTreeNodeUtils.getStringPrintableFromPrintableByPosition(positionBinaryTreeNodeMap, "<br />","&nbsp;");
+        final Map<Position, Printable<String>> positionBinaryTreeNodeMap = BinaryTreeNodeUtils.getStringByPosition(binaryTreeNode,new LeftVertexRawString(),new RightVertexRawString());
+        return BinaryTreeNodeUtils.getStringPrintableFromPrintableByPosition(positionBinaryTreeNodeMap, System.lineSeparator()," ");
     }
 
     public String getStringBinaryRepresentationFromParsableContent(String content){

@@ -7,9 +7,4 @@ public class LefVertexConsole implements Printable<String> {
     public String getPrintableValue() {
         return Printable.ANSI_GREEN +"/"+ Printable.ANSI_RESET;
         }
-
-    @Override
-    public int getPrintableOffset() {
-        return 1;
-    }
 }

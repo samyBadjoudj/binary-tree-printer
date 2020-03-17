@@ -19,14 +19,13 @@ It is composed with endpoints.
 - Build binary tree form this syntax 4(2(3)(1))(6(5)(7(9)))
 - Build binary search tree from array
 - Pretty display on terminal
-- Pretty display html
+- Webservice which returns binary tree
 
 ### Tech stack
 
 - Spring Boot embedded tomcat
 
 ### Screenshot
-![html print binary tree](https://raw.githubusercontent.com/samyBadjoudj/binary-tree-printer/master/html_print_bt.png)
 
 ![console print binary tree](https://raw.githubusercontent.com/samyBadjoudj/binary-tree-printer/master/html_print_bt_console.png)
 

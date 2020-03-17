@@ -8,8 +8,4 @@ public class RightVertexConsole implements Printable<String> {
         return Printable.ANSI_RED +"\\"+ Printable.ANSI_RESET;
    }
 
-    @Override
-    public int getPrintableOffset() {
-        return 1;
-    }
 }

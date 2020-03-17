@@ -6,6 +6,8 @@ import com.samy.bt.printer.model.printable.BinaryTreeNode;
 import com.samy.bt.printer.model.printable.Printable;
 import com.samy.bt.printer.model.printable.console.LefVertexConsole;
 import com.samy.bt.printer.model.printable.console.RightVertexConsole;
+import com.samy.bt.printer.model.printable.html.LeftVertexRawString;
+import com.samy.bt.printer.model.printable.html.RightVertexRawString;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -82,24 +84,21 @@ public class BinaryTreeNodeUtilsTest {
    public  void testGetStringPrintableByPosition() {
        List<Integer> from = IntStream.rangeClosed(1, 3).boxed().collect(Collectors.toList());
        BinaryTreeNode binaryTreeNode = BinaryTreeNodeUtils.buildTreeFromArray(from, 0);
-       Map<Position, Printable<String>> stringByPosition = BinaryTreeNodeUtils.getStringByPosition(binaryTreeNode, new LefVertexConsole(), new RightVertexConsole());
+       Map<Position, Printable<String>> stringByPosition = BinaryTreeNodeUtils.getStringByPosition(binaryTreeNode, new LeftVertexRawString(), new RightVertexRawString());
       Assert.assertEquals(5,stringByPosition.keySet().size());
 
     }
 
-    @Test
-    public void testPreparePrinting() {
-    }
 
     @Test
     public void testGetStringPrintableFromPrintableByPosition() {
         List<Integer> from = IntStream.rangeClosed(1, 3).boxed().collect(Collectors.toList());
         BinaryTreeNode binaryTreeNode = BinaryTreeNodeUtils.buildTreeFromArray(from, 0);
-        Map<Position, Printable<String>> stringByPosition = BinaryTreeNodeUtils.getStringByPosition(binaryTreeNode, new LefVertexConsoleTest(), new RightVertexConsoleTest());
+        Map<Position, Printable<String>> stringByPosition = BinaryTreeNodeUtils.getStringByPosition(binaryTreeNode, new LeftVertexRawString(), new RightVertexRawString());
 
-        Assert.assertEquals("     1\n" +
-                "    /\\\n" +
-                "  2    3\n", BinaryTreeNodeUtils.getStringPrintableFromPrintableByPosition(stringByPosition, System.lineSeparator(), " "));
+        Assert.assertEquals("          1\n" +
+                "        /  \\\n" +
+                "     2       3\n", BinaryTreeNodeUtils.getStringPrintableFromPrintableByPosition(stringByPosition, System.lineSeparator(), " "));
     }
 
     @Test
@@ -107,6 +106,5 @@ public class BinaryTreeNodeUtilsTest {
         BinaryTreeNode root = BinaryTreeNodeUtils.getBinaryTreeFromString(new ParsableTree("4(2(3)(1))(6(5))"));
         final Map<Position, Printable<String>> positionBinaryTreeNodeMap2= BinaryTreeNodeUtils.getStringByPosition(root,new LefVertexConsole(),new RightVertexConsole());
         String console = BinaryTreeNodeUtils.getStringPrintableFromPrintableByPosition(positionBinaryTreeNodeMap2, System.lineSeparator()," ");
-        LOGGER.info(System.lineSeparator()+"{}", console);
     }
 }
