@@ -3,7 +3,7 @@
 This mini project is web backend (can be use in command line application) to display colored binary tree.  
 When I was doing some exercises on BT, wanted to display them but did not find a piece of code read to paste.  
 
-It is composed with endpoints. 
+It is composed with these endpoints. 
 
 ----
             @GetMapping("printBtFromString")
@@ -16,9 +16,9 @@ It is composed with endpoints.
 
 ### Feature
 - Build binary tree form this syntax 4(2(3)(1))(6(5)(7(9)))
-- Build binary search tree from array
+- Build binary search tree from array unsorted array
 - Pretty display on terminal
-- Webservice which returns binary tree
+- Webservices which returns binary tree
 
 ### Tech stack
 
