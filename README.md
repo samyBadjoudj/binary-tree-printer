@@ -27,7 +27,7 @@ It is composed with endpoints.
 
 ### Screenshot
 
-![console print binary tree](https://raw.githubusercontent.com/samyBadjoudj/binary-tree-printer/master/html_print_bt_console.png)
+![console print binary tree](https://raw.githubusercontent.com/samyBadjoudj/binary-tree-printer/master/html_print_bt_console_2.png)
 
 ### Client with React,Redux and sagas 
 
