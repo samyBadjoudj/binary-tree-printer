@@ -1,8 +1,7 @@
 # Binary tree printer
 
 This mini project is web backend (can be use in command line application) to display colored binary tree.  
-When I was doing some exercises on BT, wanted to display   
-them but did not find a piece of code read to paste.  
+When I was doing some exercises on BT, wanted to display them but did not find a piece of code read to paste.  
 
 It is composed with endpoints. 
 
